@@ -65,7 +65,7 @@ public class AppTest
         String text = el.getText();
         elements.get(0).click(); // кликаем на первый результат
         WebElement title = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("mw-page-title-main")));
-        assertTrue(text == title.getText()); // сравниваем оглавление на странице с тем что мы нажали из результатов
+        assertTrue(text == title.getText()); // сравниваем оглавление на странице с тем что мы нажали из ре
         driver.quit();
     }
 
