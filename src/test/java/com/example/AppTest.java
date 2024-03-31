@@ -43,10 +43,9 @@ public class AppTest
 
         for (int i = 0; i < 5; i++){
             WebElement Suggest = elements.get(i);
-            String boldText = Suggest.findElement(By.className("highlight")).getText();
             System.out.println(Suggest.getText());
+            String boldText = Suggest.findElement(By.className("highlight")).getText();
             System.out.println(boldText);
-            System.out.println(inputString);
             assertTrue(Suggest.getText().contains(inputString)); // проверка, что в выданных запросах присутствует введённый текст
             assertTrue(boldText == inputString); // проверка что введённый текст - жирный
         }
@@ -71,3 +70,4 @@ public class AppTest
 
 }
 
+//тесты нетрудные, но у меня было мало времени :)
