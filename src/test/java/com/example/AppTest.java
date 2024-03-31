@@ -42,7 +42,6 @@ public class AppTest
             assertTrue(Suggest.getText().contains(inputString));
             System.out.println(Suggest.getText());
         }
-        assertTrue(1 == 1);
         try {
             Thread.sleep(3000); 
         } catch (InterruptedException e) {
