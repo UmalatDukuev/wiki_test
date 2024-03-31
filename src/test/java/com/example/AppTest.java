@@ -10,64 +10,64 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Unit test for simple App.
  */
 public class AppTest 
 {
-
-    @Test
-    public void testWikipediaPage() {
-        //здесь нужно поменять путь к своему файлу msedgedriver.exe
-        
+    
+    public WebDriver initDriver() {
         System.setProperty("webdriver.edge.driver", "C:\\Users\\dukue\\Downloads\\edgedriver_win64_123\\msedgedriver.exe");
-        //System.setProperty("webdriver.gecko.driver", "C:\\Users\\dukue\\Downloads\\geckodriver-v0.34.0-win-aarch64\\geckodriver.exe");
-
         WebDriver driver = new EdgeDriver();
-        //WebDriver driver = new FirefoxDriver();
-        
-        
-        
-        
-        
-        
         
         driver.manage().window().maximize();
         String wikipediaURL = "https://ru.wikipedia.org/wiki/Заглавная_страница";
-
         driver.get(wikipediaURL);
-        String inputString = "Тес";
-        String pageTitle = driver.getTitle();
-        assertTrue(pageTitle.contains("Википедия"));
-        driver.findElement(By.className("vector-search-box-input")).sendKeys(inputString);
-        try {
-            Thread.sleep(500); 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        List<WebElement> elements = driver.findElements(By.className("suggestions-result"));
+        return driver;
+    }
+
+
+    @Test
+    public void testWikipediaPage_1() {
+        
+        WebDriver driver = initDriver();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        String inputString = "Тесл"; // вводимый текст
+        
+        WebElement inputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("vector-search-box-input")));
+        inputField.sendKeys(inputString);
+        List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("suggestions-result")));
+
         for (int i = 0; i < 5; i++){
             WebElement Suggest = elements.get(i);
             String boldText = Suggest.findElement(By.className("highlight")).getText();
-
-            String regularText = Suggest.getText().replace(boldText, "");
-            assertTrue(Suggest.getText().contains(inputString));
             System.out.println(Suggest.getText());
             System.out.println(boldText);
-            System.out.println(regularText);
-
-
-            // WebElement boldTextElement = suggestion.findElement(By.className("highlight"));
-            // String boldText = boldTextElement.getText();
-            // String regularText = suggestion.getText().replace(boldText, "");
+            System.out.println(inputString);
+            assertTrue(Suggest.getText().contains(inputString)); // проверка, что в выданных запросах присутствует введённый текст
+            assertTrue(boldText == inputString); // проверка что введённый текст - жирный
         }
-        try {
-            Thread.sleep(1000); 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        // Закрытие браузера
         driver.quit();
     }
+
+    @Test
+    public void testWikipediaPage_2() {
+        WebDriver driver = initDriver();
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        String inputString = "Тесл"; // вводимый текст
+        WebElement inputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("vector-search-box-input")));
+        inputField.sendKeys(inputString);
+        List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("suggestions-result")));
+        WebElement el = elements.get(0);
+        String text = el.getText();
+        elements.get(0).click();
+        WebElement title = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("mw-page-title-main")));
+        assertTrue(text == title.getText());
+
+    }
+
 }
+
