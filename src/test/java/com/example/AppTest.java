@@ -59,14 +59,14 @@ public class AppTest
         WebDriverWait wait = new WebDriverWait(driver, 10);
         String inputString = "Тесл"; // вводимый текст
         WebElement inputField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("vector-search-box-input")));
-        inputField.sendKeys(inputString);
+        inputField.sendKeys(inputString); // ввод "Тесл"
         List<WebElement> elements = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.className("suggestions-result")));
-        WebElement el = elements.get(0);
+        WebElement el = elements.get(0); //текст первого результата в поисковых результатах
         String text = el.getText();
-        elements.get(0).click();
+        elements.get(0).click(); // кликаем на первый результат
         WebElement title = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("mw-page-title-main")));
-        assertTrue(text == title.getText());
-
+        assertTrue(text == title.getText()); // сравниваем оглавление на странице с тем что мы нажали из результатов
+        driver.quit();
     }
 
 }
